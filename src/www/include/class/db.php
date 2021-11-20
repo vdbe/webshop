@@ -7,10 +7,10 @@ class DB
     protected bool $connection_open = false;
     protected mysqli_stmt $stmt;
     protected bool $stmt_active = false;
+    protected bool $ref_binded_stmt = false;
 
     public int $errno = 0;
     public string $error = '';
-    public bool $bind_reference = false;
 
     public function __construct(
         string $hostname,
@@ -36,8 +36,11 @@ class DB
 
     private function error($errno, $error): int
     {
-        $this->error = $error;
-        $this->errno = $errno;
+        // Keep first error
+        if ($this->errno == 0) {
+            $this->error = $error;
+            $this->errno = $errno;
+        }
         return $this->errno;
     }
 
@@ -70,13 +73,18 @@ class DB
         if ($this->stmt->close() == false) {
             return $this->error(201, 'Failed to close statment.');
         };
-        $this->connection_open = false;
 
+        $this->ref_binded_stmt = false;
+        $this->stmt_active = false;
         return true;
     }
 
     public function query(string $query, string $types = ''): db|int
     {
+        if ($this->stmt_active) {
+            $this->close_stmt();
+        }
+
         $num_args = func_num_args();
         if ($num_args < 1) {
             return $this->error(301, 'You need to provide atleast 1 argument');
@@ -89,23 +97,21 @@ class DB
         }
 
         if ($num_args > 2) {
-            // Check if there are enouh bind params
-
             $bind_params = array_slice(func_get_args(), 2);
-            if ($this->bind_reference) {
-                $args_as_ref = &$bind_params;
-                $args_as_ref = func_get_arg(2);
+            if (is_array($bind_params[0])) {
+                $args_as_ref = &$bind_params[0];
+                $this->ref_binded_stmt = true;
             } else {
-                if (strlen($types) != count(func_get_args()) - 2) {
-                    return $this->error(302, 'Length of `types` and `bind_params` does not match.');
-                }
-
                 $args_as_ref = array();
-
                 // Find a better way for this
                 foreach ($bind_params as $ii => $param) {
                     $args_as_ref[$ii] = &$param;
                 }
+            }
+
+            // Check if there are enouh bind params
+            if (strlen($types) != count($args_as_ref)) {
+                return $this->error(302, 'Length of `types` and `bind_params` does not match.');
             }
 
             // Doesn't work if it is in the loop for some reason
@@ -121,7 +127,7 @@ class DB
         $this->stmt_active = true;
         $this->stmt = $stmt;
 
-        if ($this->bind_reference == false) {
+        if ($this->ref_binded_stmt == false) {
             $this->execute();
         }
 
@@ -147,14 +153,13 @@ class DB
 
         $result = $this->stmt->get_result();
         if ($result == false) {
-            return $this->error(302, 'mysqli_stmt::get_result() failed');
+            return $this->error(302, 'mysqli_stmt::get_result() failed: ' . $this->stmt->error);
         }
 
         $results =  $result->fetch_all($mode);
 
-        if ($this->bind_reference == false) {
-            // Already got the results no need to error
-            $this->execute();
+        if ($this->ref_binded_stmt == false) {
+            $this->close_stmt();
         }
 
         return $results;
