@@ -1,22 +1,50 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<?php
+include 'include/class/db.php';
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+$db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
 
-    <title>Webshop</title>
-  </head>
-  <body>
-    
-    <!-- Optional JavaScript; choose one of the two! -->
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-  </body>
-</html>
+$db->query('DELETE FROM Category;');
+
+$db->bind_reference = true;
+
+$category_name = 'food';
+$category_description = 'any nutritious substance that people or animals eat or drink or that plants absorb in order to maintain life and growth.';
+
+$query = 'INSERT INTO Category (category_name, category_description) VALUES (?, ?)';
+$db->query($query, 'ss', array(&$category_name, &$category_description));
+$db->execute();
+
+if ($db->errno) {
+  exit($db->error);
+}
+
+$category_name = 'bricks';
+$category_description = 'Small rectangular blocks';
+$db->execute();
+
+if ($db->errno) {
+  exit($db->error);
+}
+
+$category_name = 'electronics';
+$category_description = 'circuits or devices . using transistors, microchips, and other components.';
+$db->execute();
+
+if ($db->errno) {
+  exit($db->error);
+}
+
+$db->bind_reference = false;
+$db->query('SELECT * FROM Category WHERE category_name like ?', 's', '%s');
+
+if ($db->errno) {
+  exit($db->error);
+}
+
+$results = $db->fetch_all(MYSQLI_ASSOC);
+
+foreach ($results as $result) {
+  echo $result['category_id'] . ', ' . $result['category_name'] . ', ' . $result['category_description'] . '<br>';
+}
+
+$db->close();

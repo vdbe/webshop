@@ -16,7 +16,6 @@ services:
       - database
     volumes: 
       - ${DOCUMENT_ROOT-./src/www}:/var/www/html
-      - ${PHP_INI-./config/php/php.ini}:/usr/local/etc/php/php.ini
       - ${LOG_DIR-./log/apache2}:/var/log/apache2
       - ${PHP_INCLUDE-./src/include}:/var/lib/php
     environment:
