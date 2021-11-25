@@ -17,7 +17,7 @@ services:
     volumes: 
       - ${DOCUMENT_ROOT-./src/www}:/var/www/html
       - ${LOG_DIR-./log/apache2}:/var/log/apache2
-      - ${PHP_INCLUDE-./src/include}:/var/lib/php
+      - ${PHP_INI-./config/php/php.ini}:/usr/local/etc/php/php.ini
     environment:
       PMA_PORT: ${HOST_MACHINE_PMA_PORT}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}

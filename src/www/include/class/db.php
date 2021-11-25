@@ -164,4 +164,15 @@ class DB
 
         return $results;
     }
+
+    public function affected_rows(): int
+    {
+        if ($this->stmt_active == false) {
+            $this->error(301, 'DB::fetch_all() failed: No active statement');
+            // This is a bit annoying
+            return 0;
+        }
+
+        return $this->stmt->affected_rows;
+    }
 }
