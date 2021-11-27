@@ -18,11 +18,15 @@ class User
     {
         $ret = false;
 
-        $db->query('SELECT 1 FROM User WHERE user_email == ?', 's', $email);
+        $db->query('SELECT COUNT(1) FROM User WHERE user_email = ?', 's', $email);
         if ($db->errno) {
             exit($db->error);
         }
-        if ($db->affected_rows() == 0) {
+        $row = $db->fetch_row();
+        if ($db->errno) {
+            exit($db->error);
+        }
+        if ($row[0] == 0) {
             // Email doesn't exist
             $ret =  false;
         } else {
@@ -42,15 +46,19 @@ class User
         string $email,
         string $dob,
         string $password,
-        bool $active,
+        int $active,
     ) {
         $query = '
         INSERT INTO User
             (ur_id, user_displayname, user_firstname, user_lastname, user_email, user_dateofbirth, user_passwordhash, user_active)
         VALUES
             (?, ?, ?, ?, ?, ?, ?, ?)';
-        $date_of_birth = 0;
-        $db->query($query, 'issssisb', $role_id, $displayname, $firstname, $lastname, $email, $date_of_birth, password_hash($password, PASSWORD_DEFAULT), $active);
+        $passwordhash = password_hash($password, PASSWORD_DEFAULT);
+        $data_of_birth = date('Y-m-d', strtotime($dob));
+        $db->query($query, 'issssssi', $role_id, $displayname, $firstname, $lastname, $email, $data_of_birth, $passwordhash, $active);
+        if ($db->errno) {
+            exit($db->error);
+        }
 
         return true;
     }

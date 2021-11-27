@@ -4,7 +4,7 @@ include 'include/class/db.php';
 /* Empty table */
 $db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
 
-$db->query('DELETE FROM Category;');
+#$db->query('DELETE FROM Category;');
 
 /* Insert rows */
 $category_name = 'food';

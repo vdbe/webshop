@@ -105,7 +105,7 @@ class DB
                 $args_as_ref = array();
                 // Find a better way for this
                 foreach ($bind_params as $ii => $param) {
-                    $args_as_ref[$ii] = &$param;
+                    $args_as_ref[$ii] = &$bind_params[$ii];
                 }
             }
 
@@ -168,11 +168,43 @@ class DB
     public function affected_rows(): int
     {
         if ($this->stmt_active == false) {
-            $this->error(301, 'DB::fetch_all() failed: No active statement');
+            $this->error(401, 'DB::fetch_all() failed: No active statement');
             // This is a bit annoying
             return 0;
         }
 
         return $this->stmt->affected_rows;
+    }
+
+    public function fetch_field_direct($index = 0): object|int
+    {
+        if ($this->stmt_active == false) {
+            return $this->error(501, 'DB::fetch_field() failed: No active statement');
+        }
+
+        $result = $this->stmt->get_result();
+        if ($result == false) {
+            return $this->error(502, 'mysqli_stmt::get_result() failed: ' . $this->stmt->error);
+        }
+
+        $finfo =  $result->fetch_field_direct($index);
+
+        // TODO: Error handling
+
+        return $finfo;
+    }
+
+    public function fetch_row(): array|int
+    {
+        if ($this->stmt_active == false) {
+            return $this->error(601, 'DB::fetch_row() failed: No active statement');
+        }
+
+        $result = $this->stmt->get_result();
+        if ($result == false) {
+            return $this->error(602, 'mysqli_stmt::get_result() failed: ' . $this->stmt->error);
+        }
+
+        return $result->fetch_row();
     }
 }

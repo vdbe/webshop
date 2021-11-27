@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS webshop.User (
 	user_firstname VARCHAR(64) NOT NULL,
 	user_lastname VARCHAR(64) NOT NULL,
 	user_email VARCHAR(255) NOT NULL,
-	user_lastlogin TIMESTAMP,
-	user_dateofbirth TIMESTAMP NOT NULL,
+	user_lastlogin DATETIME,
+	user_dateofbirth DATETIME NOT NULL,
 	user_passwordhash VARCHAR(255) NOT NULL,
 	user_active BOOLEAN DEFAULT 1,
 	CONSTRAINT user_pk PRIMARY KEY(user_id),
@@ -30,13 +30,12 @@ CREATE TABLE IF NOT EXISTS webshop.Product (
 	product_id INT UNSIGNED AUTO_INCREMENT,
 	category_id INT UNSIGNED NOT NULL,
 	product_description text,
-	product_available TIMESTAMP,
+	product_available DATETIME,
 	product_stock INT NOT NULL,
 	product_unitprice BIGINT NOT NULL,
 	CONSTRAINT product_pk PRIMARY KEY(product_id),
 	FOREIGN KEY (category_id) REFERENCES Category(category_id)
 );
-
 
 CREATE TABLE IF NOT EXISTS webshop.ProductPicture (
 	pp_id INT UNSIGNED AUTO_INCREMENT,
@@ -50,8 +49,8 @@ CREATE TABLE IF NOT EXISTS webshop.UserOrder (
 	uo_id INT UNSIGNED AUTO_INCREMENT,
 	user_id INT UNSIGNED NOT NULL,
 	uo_basket BOOLEAN DEFAULT 1,
-	uo_date TIMESTAMP,
-	uo_payedat TIMESTAMP,
+	uo_date DATETIME,
+	uo_payedat DATETIME,
 	CONSTRAINT userorder_pk PRIMARY KEY(uo_id),
 	FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
