@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Create user
                 User::create($db, $role_id, $displayname, $firstname, $lastname, $email, $dob, $password, $active);
-                header("Location: http://".$_SERVER['HTTP_HOST']);
+                header("Location: http://" . $_SERVER['HTTP_HOST']);
                 exit();
             } else {
                 // TODO: Error
@@ -73,10 +73,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Sign up</title>
     <script>
         function validateSignUpForm(form) {
-            // Doesn't work!!!
             password = document.getElementById("password");
             passwordRepeat = document.getElementById("passwordRepeat");
 

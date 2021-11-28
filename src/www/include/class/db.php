@@ -8,6 +8,8 @@ class DB
     protected mysqli_stmt $stmt;
     protected bool $stmt_active = false;
     protected bool $ref_binded_stmt = false;
+    protected mysqli_result $result;
+    protected bool $got_result = false;
 
     public int $errno = 0;
     public string $error = '';
@@ -79,6 +81,19 @@ class DB
         return true;
     }
 
+    private function get_result(): mysqli_result|false
+    {
+        if ($this->got_result == false) {
+            $result = $this->stmt->get_result();
+            if ($result == false) {
+                exit('mysqli_stmt::get_result() failed');
+            }
+            $this->got_result = true;
+            $this->result = $result;
+        }
+        return $this->result;
+    }
+
     public function query(string $query, string $types = ''): db|int
     {
         if ($this->stmt_active) {
@@ -136,6 +151,8 @@ class DB
 
     public function execute(): int
     {
+        $this->got_result = false;
+
         /* Execute statement */
         $this->stmt->execute();
         if ($this->stmt->errno) {
@@ -173,6 +190,8 @@ class DB
             return 0;
         }
 
+        $this->get_result();
+
         return $this->stmt->affected_rows;
     }
 
@@ -194,14 +213,15 @@ class DB
         return $finfo;
     }
 
-    public function fetch_row(): array|int
+    public function fetch_row(): array|null|int
     {
         if ($this->stmt_active == false) {
             return $this->error(601, 'DB::fetch_row() failed: No active statement');
         }
 
-        $result = $this->stmt->get_result();
+        $result = $this->get_result();
         if ($result == false) {
+            // TODO: move check into `DB::get_result()`
             return $this->error(602, 'mysqli_stmt::get_result() failed: ' . $this->stmt->error);
         }
 
