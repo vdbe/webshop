@@ -1,8 +1,8 @@
 <?php
-// TODO: header file
-session_start();
+$LOGGED_IN = 0;
+require_once 'include/php_header.php';
+require_once 'include/permissions.php';
 
-unset($_SESSION['user']);
 
 if (isset($_SESSION['user'])) {
     header("Location: http://" . $_SERVER['HTTP_HOST']);

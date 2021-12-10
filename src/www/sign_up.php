@@ -39,9 +39,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $email = $_POST['email'];
 
-            $user_exists = User::check_if_exists($db, htmlspecialchars($email));
+            $email_exists = User::check_if_email_exists($db, htmlspecialchars($email));
+            $displayname_exists = User::check_if_displayname_exists($db, htmlspecialchars($email));
 
-            if ($user_exists == false) {
+            if ($email_exists == false && $displayname_exists == false) {
                 $role_id = 1;
                 $displayname = $_POST['displayname'];
                 $firstname = $_POST['firstname'];

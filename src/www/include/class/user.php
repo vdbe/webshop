@@ -32,7 +32,7 @@ class User
         $this->lastlogin = $lastlogin;
     }
 
-    public static function check_if_exists(DB $db, string $email): bool
+    public static function check_if_email_exists(DB $db, string $email): bool
     {
         $ret = false;
 
@@ -55,6 +55,28 @@ class User
         return $ret;
     }
 
+    public static function check_if_displayname_exists(DB $db, string $displayname): bool
+    {
+        $ret = false;
+
+        $db->query('SELECT COUNT(1) FROM User WHERE user_displayname = ?;', 's', $displayname);
+        if ($db->errno) {
+            exit($db->error);
+        }
+        $row = $db->fetch_row();
+        $db->close_stmt();
+        if ($db->errno) {
+            exit($db->error);
+        }
+        if ($row[0] == 0) {
+            // Displayname doesn't exist
+            $ret =  false;
+        } else {
+            $ret =  true;
+        }
+
+        return $ret;
+    }
     public static function create(
         DB $db,
         int $role_id,

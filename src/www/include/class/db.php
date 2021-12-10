@@ -46,7 +46,6 @@ class DB
         return $this->errno;
     }
 
-
     // True on success
     public function close(): bool|int
     {
