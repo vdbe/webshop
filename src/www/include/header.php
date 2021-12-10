@@ -1,5 +1,5 @@
 <?php
-//require_once 'include/php_header.php'
+require_once 'include/php_header.php';
 
 $LOGGED_IN = 0;
 
