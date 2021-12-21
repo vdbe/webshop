@@ -21,7 +21,6 @@ class Category
             WHERE category_name = ?;
         SQL;
 
-        echo $category;
         $db->query($query, 's', $category);
         $row = $db->fetch_row();
         $db->close_stmt();

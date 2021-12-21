@@ -7,7 +7,8 @@ require_once __DIR__ . '/include/php_header.php';
 require_once __DIR__ . '/include/header.php';
 ?>
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newProductModal" data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newProductModal" data-bs-whatever="@getbootstrap">Add product</button>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newProductModal" data-bs-whatever="@getbootstrap">Change product</button>
 
 <div class="modal fade" id="newProductModal" tabindex="-1" aria-labelledby="newProductModalLabel" aria-hidden="true">
     <div class="modal-dialog">
