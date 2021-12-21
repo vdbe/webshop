@@ -1,8 +1,6 @@
 <?php
-$LOGGED_IN = 0;
-require_once 'include/php_header.php';
-require_once 'include/permissions.php';
-
+$NEEDS_TO_BE_LOGGED_IN = 0;
+require_once __DIR__ . '/include/php_header.php';
 
 if (isset($_SESSION['user'])) {
     header("Location: http://" . $_SERVER['HTTP_HOST']);
@@ -31,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $user = User::login($db, $email, $password);
             if ($user !== false) {
-                $_SESSION['user'] = $user;
+                $_SESSION['user'] = serialize($user);
                 header("Location: http://" . $_SERVER['HTTP_HOST']);
                 exit();
             } else {

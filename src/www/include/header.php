@@ -1,8 +1,5 @@
 <?php
-require_once 'include/php_header.php';
-
-$LOGGED_IN = 0;
-
+require_once __DIR__ . '/php_header.php';
 
 if (isset($_SESSION['user'])) {
     $LOGGED_IN = 1;
@@ -28,15 +25,12 @@ if (isset($_SESSION['user'])) {
     </nav>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="/#">Site Name</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
                     </li>
@@ -62,11 +56,20 @@ if (isset($_SESSION['user'])) {
                     ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                User
+                                <?php
+                                echo $USER->displayname;
+                                ?>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
                                 <li><a class="dropdown-item" href="#">Orders</a></li>
+                                <?php
+                                if ($IS_ADMIN == 1) {
+                                ?>
+                                    <li><a class="dropdown-item" href="/admin-panel">Admin panel</a></li>
+                                <?php
+                                }
+                                ?>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>

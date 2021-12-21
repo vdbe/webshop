@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS webshop.UserRole (
 
 CREATE TABLE IF NOT EXISTS webshop.User (
 	user_id INT UNSIGNED AUTO_INCREMENT,
-	ur_id INT UNSIGNED DEFAULT 0,
+	ur_id INT UNSIGNED DEFAULT 1,
 	user_displayname VARCHAR(64) NOT NULL,
 	user_firstname VARCHAR(64) NOT NULL,
 	user_lastname VARCHAR(64) NOT NULL,
@@ -29,10 +29,11 @@ CREATE TABLE IF NOT EXISTS webshop.Category (
 CREATE TABLE IF NOT EXISTS webshop.Product (
 	product_id INT UNSIGNED AUTO_INCREMENT,
 	category_id INT UNSIGNED NOT NULL,
+	product_name VARCHAR(64) NOT NULL,
 	product_description text,
 	product_available DATETIME,
 	product_stock INT NOT NULL,
-	product_unitprice BIGINT NOT NULL,
+	product_unitprice DOUBLE(8,2) NOT NULL,
 	CONSTRAINT product_pk PRIMARY KEY(product_id),
 	FOREIGN KEY (category_id) REFERENCES Category(category_id)
 );

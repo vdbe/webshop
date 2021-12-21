@@ -101,6 +101,7 @@ class User
         $db->query($query, 'issssssi', $role_id, $displayname, $firstname, $lastname, $email, $data_of_birth, $passwordhash, $active);
         $db->close_stmt();
         if ($db->errno) {
+            // TODO: Error handling
             exit($db->error);
         }
 
@@ -174,5 +175,10 @@ class User
         }
 
         return true;
+    }
+
+    function getRole()
+    {
+        return $this->role_name;
     }
 }
