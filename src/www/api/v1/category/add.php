@@ -16,22 +16,14 @@ if (empty($json)) {
 }
 
 require_once __DIR__ . '/../../../include/class/db.php';
-require_once __DIR__ . '/../../../include/class/product.php';
+require_once __DIR__ . '/../../../include/class/category.php';
 
 $db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
 $data = json_decode($json);
 
-$stock = (int)$data->stock;
-$unitprice = (float)$data->stock;
-
-if ($data->available == true) {
-    //$date = '1970-01-01';
-    $date = date('Y-m-d');
+if (Category::add($db, $data->name, $data->description)) {
+    echo json_encode($response);
 } else {
-    $date = new DateTime('2999-01-01');
+    $response['status'] = "failed";
+    echo json_encode($response);
 }
-
-
-Product::add($db, $data->name, $data->description, $data->categories, $date, $stock, $unitprice);
-
-echo json_encode($response);

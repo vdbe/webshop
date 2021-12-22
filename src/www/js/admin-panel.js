@@ -1,6 +1,7 @@
 function fillInCategories(categories) {
   let categories_select = document.getElementById("categories-select");
 
+  categories_select.options.length = 0;
   for (let ii = 0; ii < categories.length; ii++) {
     const name = categories[ii].name;
     categories_select.add(new Option(name, name));
@@ -20,12 +21,6 @@ function serializeJSON(form) {
 
 
 function addProduct(form) {
-
-  if (form[3].value == "on") {
-    form[3].value = 1
-  } else {
-    console.log(form[3])
-  }
   const formData = new FormData(form);
 
   const dict = {};
@@ -34,11 +29,6 @@ function addProduct(form) {
   }
 
   dict['available'] = dict['available'] == "on";
-  //if (dict['available'] == "on") {
-  //  dict['available'] = 1;
-  //} else {
-  //  dict['available'] = 1;
-  //}
 
   let addProduct = new Request("/api/v1/product/add");
   fetch(addProduct, {
@@ -52,27 +42,49 @@ function addProduct(form) {
     if (!response.ok || response.status != 200) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    //return response.json();
   })
-  //.then(function(response) {
-  //  console.log(response)
-  //});
-
-  console.log(content);
 
   return false;
 }
 
-var a
+function addCategory(form) {
+  const formData = new FormData(form);
 
-let categoriesRequest = new Request("/api/v1/category/list");
-
-fetch(categoriesRequest).then((response) => {
-  if (!response.ok || response.status != 200) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+  const dict = {};
+  for (const pair of formData) {
+    dict[pair[0]] = pair[1];
   }
-  return response.json();
-})
-  .then(function(response) {
-    fillInCategories(response);
-  });
+
+  let addCategory = new Request("/api/v1/category/add");
+  fetch(addCategory, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(dict),
+  }).then((response) => {
+    if (!response.ok || response.status != 200) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  })
+
+  updateCatgories();
+
+  return false;
+}
+
+function updateCatgories() {
+  let categoriesRequest = new Request("/api/v1/category/list");
+  fetch(categoriesRequest).then((response) => {
+    if (!response.ok || response.status != 200) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+    .then(function(response) {
+      fillInCategories(response);
+    });
+}
+
+updateCatgories();

@@ -181,4 +181,24 @@ class User
     {
         return $this->role_name;
     }
+
+    static function getUsers(DB $db)
+    {
+        // abc
+        $query = <<<SQL
+        SELECT
+            u.user_id as id, ur.ur_name, u.user_displayname as displayname, u.user_firstname as firstname,
+            u.user_lastname as lastname, u.user_email as email, u.user_lastlogin as lastlogin,
+            u.user_dateofbirth as dob, u.user_active as active
+        FROM User as u
+        LEFT JOIN UserRole AS ur
+            ON u.ur_id = ur.ur_id
+        SQL;
+        $db->query($query);
+
+        $result = $db->fetch_all(MYSQLI_ASSOC);
+        $db->close_stmt();
+
+        return $result;
+    }
 }

@@ -57,7 +57,7 @@ if (isset($_SESSION['user'])) {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <?php
-                                echo $USER->displayname;
+                                echo htmlspecialchars($USER->displayname);
                                 ?>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

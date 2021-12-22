@@ -5,13 +5,25 @@ class Category
     public static function getCategories(DB $db)
     {
         $query = <<<SQL
-            SELECT category_name as name, category_description as description FROM Category
+            SELECT category_id, category_name as name, category_description as description FROM Category
             ORDER BY category_name;
         SQL;
 
         $db->query($query);
 
         return $db->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public static function add(DB $db, string $name, string $description)
+    {
+        $query = <<<SQL
+            INSERT INTO Category (category_name, category_description) VALUES
+            (?, ?);
+        SQL;
+        $db->query($query, 'ss', $name, $description);
+        $db->close_stmt();
+
+        return !$db->errno;
     }
 
     public static function getID(DB $db, string $category)
