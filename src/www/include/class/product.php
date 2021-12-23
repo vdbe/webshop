@@ -34,7 +34,7 @@ class Product
     public function update(DB $db)
     {
         $query = <<<SQL
-            UPDATE LOW_PRIORITY IGNORE Products
+            UPDATE LOW_PRIORITY IGNORE Product
             SET
                 product_name = ?
                 procuct_description = ?

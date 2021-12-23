@@ -2,10 +2,38 @@
 
 class Category
 {
+    private int $id;
+    public string $name;
+    public string $description;
+
+    function __construct(int $id, string $name, string $description)
+    {
+        $this->id = $id;
+        $this->name = $name;
+        $this->description = $description;
+    }
+
+    public function update(DB $db)
+    {
+        $query = <<<SQL
+            UPDATE Category
+            SET
+                category_name = ?,
+                category_description = ?
+            WHERE
+                category_id = ?;
+        SQL;
+
+        $db->query($query, 'ssi', $this->name, $this->description, $this->id);
+        $db->close_stmt();
+
+        return !$db->errno;
+    }
+
     public static function getCategories(DB $db)
     {
         $query = <<<SQL
-            SELECT category_id, category_name as name, category_description as description FROM Category
+            SELECT category_id as id, category_name as name, category_description as description FROM Category
             ORDER BY category_name;
         SQL;
 

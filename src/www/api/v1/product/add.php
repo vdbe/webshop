@@ -4,7 +4,7 @@ $ADMIN_ONLY = 1;
 
 require_once __DIR__ . '/../../../include/php_header.php';
 
-header('Content-Type: application/json; charset=utf-8');
+//header('Content-Type: application/json; charset=utf-8');
 
 $response = array('status' => 'success');
 
@@ -25,8 +25,8 @@ $stock = (int)$data->stock;
 $unitprice = (float)$data->stock;
 
 if ($data->available == true) {
-    //$date = '1970-01-01';
-    $date = date('Y-m-d');
+    //$date = date('Y-m-d');
+    $date = new DateTime('1970-01-01');
 } else {
     $date = new DateTime('2999-01-01');
 }

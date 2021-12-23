@@ -9,6 +9,7 @@ require_once __DIR__ . '/include/header.php';
 
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newProductModal" data-bs-whatever="@getbootstrap">Add product</button>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCategoryModal" data-bs-whatever="@getbootstrap">Add Category</button>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCategoryModal" data-bs-whatever="@getbootstrap">Edit Category</button>
 
 <div class="modal fade" id="newProductModal" tabindex="-1" aria-labelledby="newProductModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -28,8 +29,8 @@ require_once __DIR__ . '/include/header.php';
                         <textarea name="description" class="form-control" id="description-text"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="categories-select" class="col-form-label">Description:</label>
-                        <select name="categories" id="categories-select">
+                        <label for="categories-select" class="col-form-label">Category:</label>
+                        <select name="categories" class="category-select" id="categories-select">
                         </select>
                     </div>
                     <div class="mb-3">
@@ -75,6 +76,38 @@ require_once __DIR__ . '/include/header.php';
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" value="Submit" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryLabel">edit Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editCategory-form" onsubmit="return editCategoryFormOnSubmit(this)">
+                    <div class="mb-3">
+                        <label for="edit-category-categories-select" class="col-form-label">Category:</label>
+                        <select name="categories" id="edit-category-categories-select" onchange="updateEditCategoryForm(this)" class="category-select">
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-category-category-name" class="col-form-label">Name:</label>
+                        <input name="name" type="text" class="form-control" id="edit-category-category-name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-category-description-text" class="col-form-label">Description:</label>
+                        <textarea name="description" class="form-control" id="edit-category-description-text"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" value="Submit" class="btn btn-primary" data-bs-dismiss="modal">Edit</button>
                     </div>
                 </form>
             </div>

@@ -3,3 +3,4 @@
 data/db
 log/db
 log/apache2
+**/.log/
