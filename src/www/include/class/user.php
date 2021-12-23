@@ -184,10 +184,9 @@ class User
 
     static function getUsers(DB $db)
     {
-        // abc
         $query = <<<SQL
         SELECT
-            u.user_id as id, ur.ur_name, u.user_displayname as displayname, u.user_firstname as firstname,
+            u.user_id as id, ur.ur_name as rolename, u.user_displayname as displayname, u.user_firstname as firstname,
             u.user_lastname as lastname, u.user_email as email, u.user_lastlogin as lastlogin,
             u.user_dateofbirth as dob, u.user_active as active
         FROM User as u
@@ -200,5 +199,23 @@ class User
         $db->close_stmt();
 
         return $result;
+    }
+
+    static function change(DB $db, int $id, string $displayname, string $rolename, bool $active)
+    {
+        $query = <<<SQL
+            UPDATE User
+            SET
+                user_displayname = ?,
+                ur_id = (SELECT ur_id FROM UserRole WHERE ur_name = ?),
+                user_active = ?
+            WHERE
+                user_id = ?;
+        SQL;
+
+        $db->query($query, 'ssii', $displayname, $rolename, $active, $id);
+        $db->close_stmt();
+
+        return !$db->errno;
     }
 }
