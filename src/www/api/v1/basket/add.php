@@ -10,7 +10,7 @@ require_once __DIR__ . '../../../../include/class/userorder.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
-$response = array('status' => 'success');
+$response = array('status' => 'success', 'stock' => -1);
 
 $json = file_get_contents('php://input');
 
@@ -24,9 +24,13 @@ $data = json_decode($json);
 
 $basket = UserOrder::basket($db, $USER);
 
-if ($basket->addItem($db, $data->id, $data->amount) == false) {
+$stock = $basket->addItem($db, $data->id, $data->amount);
+if ($stock < 0) {
     $response['status'] = "failed";
+    $response['stock'] = $stock;
     echo json_encode($response);
+    die();
 }
 
+$response['stock'] = $stock;
 echo json_encode($response);

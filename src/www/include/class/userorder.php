@@ -29,19 +29,31 @@ class UserOrder
         return $this->id;
     }
 
-    public function addItem(DB $db, int $product_id, int $amount): bool
+    /**
+     * Place item in UserOrder instance.
+     *
+     * Creates a new `Order` with as `uo_id` `$this->id`,
+     * checks an returns the new stock if return value is below
+     * zero it is an error.
+     *
+     * @param DB $db db instance
+     * @param int $product_id product id
+     * @param int $amount amount of items to be orderd with id `$product_id`
+     * @return int below 0 error 0 or higher new stock
+     */
+    public function addItem(DB $db, int $product_id, int $amount): int
     {
         // Get Product
         $product = Product::getByID($db, $product_id);
 
         if ($product_id == null) {
             // Not found
-            return false;
+            return -1;
         }
 
         if ($product->stock < $amount) {
             // Not enough stock
-            return false;
+            return -2;
         }
 
         // Create Order
@@ -53,14 +65,14 @@ class UserOrder
         SQL;
         $db->query($query, 'iii', $this->id, $product_id, $amount);
         $db->close_stmt();
-        if (!$db->errno) {
-            // Update stock
-            $product->stock -= $amount;
-            $product->update($db);
-            return true;
+        if ($db->errno) {
+            return -3;
         }
 
-        return true;
+        // Update stock
+        $product->stock -= $amount;
+        $product->update($db);
+        return $product->stock;
     }
 
     public static function new(

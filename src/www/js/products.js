@@ -147,11 +147,6 @@ async function searchProducts(name = "", description = "", category = "") {
 
 async function placeInBasketOnClick(card) {
   let data = { 'id': Number(card.getAttribute('productid')), 'amount': Number(card.childNodes[1].childNodes[3].value) };
-  //data['id'] = card.getAttribute('productid');
-  //data['amount'] = card.childNodes[1].childNodes[3].value;
-  //console.log(data);
-  //let json = `{'id': ${card.getAttribute('productid')}, 'amount': ${card.childNodes[1].childNodes[3].value}}`;
-  console.log(data);
 
   try {
     const response = await fetch(new Request('/api/v1/basket/add'), {
@@ -167,9 +162,20 @@ async function placeInBasketOnClick(card) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const categories = await response.json();
+    const result = await response.json();
 
-    return categories
+    const stock = result['stock'];
+    if (stock > 0) {
+      const countInput = card.childNodes[1].childNodes[3];
+      countInput.setAttribute('max', stock);
+      if (countInput.value > stock) {
+        countInput.value = stock;
+      }
+    } else if (stock == 0) {
+      card.remove();
+    } else {
+      console.error("Failed to add item to basket");
+    }
   } catch (err) {
     console.error(err);
   }
