@@ -20,7 +20,7 @@ require_once __DIR__ . '/include/header.php';
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="newproduct-form" onsubmit="return addProduct(this)">
+                <form id="newproduct-form" onsubmit="return addProduct(this)" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="product-name" class="col-form-label">Name:</label>
                         <input name="name" type="text" class="form-control" id="product-name">

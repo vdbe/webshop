@@ -110,7 +110,7 @@ class DB
             return $this->error(302, 'mysqli::prepare() failed: ' . $this->connection->error);
         }
 
-        if ($num_args > 2) {
+        if ($num_args > 2 && strlen($types)) {
             $bind_params = array_slice(func_get_args(), 2);
             if (is_array($bind_params[0])) {
                 $args_as_ref = &$bind_params[0];

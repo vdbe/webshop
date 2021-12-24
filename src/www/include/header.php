@@ -1,11 +1,6 @@
 <?php
 require_once __DIR__ . '/php_header.php';
 
-if (isset($_SESSION['user'])) {
-    $LOGGED_IN = 1;
-}
-
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -38,18 +33,24 @@ if (isset($_SESSION['user'])) {
                         <a class="nav-link disabled">Disabled</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <form action="">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="c:" aria-label="c:" aria-describedby="button-addon2">
-                                <div class="input-group-append">
-                                    <button class="btn btn-secondary" type="button" id="button-addon2">Search</button>
+                <?php
+                if ($LOGGED_IN == 1 && isset($NO_SEARCHBAR) && $NO_SEARCHBAR != true) {
+                ?>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <form action="/products" method="GET">
+                                <div class="input-group mb-3">
+                                    <input name='name' type="text" class="form-control" placeholder="Search" aria-label="c:" aria-describedby="button-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="button" id="button-addon2">Search</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                    </li>
-                </ul>
+                            </form>
+                        </li>
+                    </ul>
+                <?php
+                }
+                ?>
                 <ul class="navbar-nav ms-auto">
                     <?php
                     if ($LOGGED_IN == 1) {

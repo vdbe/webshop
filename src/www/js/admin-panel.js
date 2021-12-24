@@ -56,8 +56,6 @@ function addProduct(form) {
   let category = dict['categories'];
   const idx = category.indexOf('-');
   dict['categories'] = category.slice(idx + 1);
-  console.log(dict);
-
 
   let addProduct = new Request("/api/v1/product/add");
   fetch(addProduct, {
@@ -153,7 +151,6 @@ function editCategoryFormOnSubmit(form) {
   for (const pair of formData) {
     dict[pair[0]] = pair[1];
   }
-  console.log(dict);
 
   const split_index = dict['categories'].indexOf('-');
   const index = dict['categories'].slice(0, split_index);
@@ -186,7 +183,6 @@ function editUserFormOnSubmit(form) {
   for (const pair of formData) {
     dict[pair[0]] = pair[1];
   }
-  console.log(dict);
 
   const split_index = dict['user'].indexOf('-');
   const index = dict['user'].slice(0, split_index);

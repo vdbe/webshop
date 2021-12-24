@@ -52,7 +52,7 @@ class Product
         $db->close_stmt();
     }
 
-    public static function search(DB $db, string $name = "", string $description = "", string $category = '')
+    public static function search(DB $db, string $name = "", string $description = "", string $category = '', bool $onlyAvailable = true)
     {
         // Bye bye performance
         $query = <<<SQL
@@ -63,8 +63,14 @@ class Product
         LEFT JOIN Category AS c
             ON p.category_id = c.category_id
         WHERE
-            p.product_available <= CURDATE()
         SQL;
+
+        if ($onlyAvailable == true) {
+            $query .= ' p.product_available <= CURDATE()';
+        } else {
+            // Dirty fix, I know
+            $query .= ' 1=1';
+        }
 
         $name = $name;
         $params = array();
@@ -74,13 +80,17 @@ class Product
         if (!empty($name)) {
             $query .= ' AND p.product_name LIKE ?';
             $types .= 's';
+
+            $name = '%' . str_replace(' ', '%', $name) . '%';
             $params[$idx] = &$name;
             $idx++;
         }
 
-        if (!empty($name)) {
+        if (!empty($description)) {
             $query .= ' AND p.product_description LIKE ?';
             $types .= 's';
+
+            $description = '%' . str_replace(' ', '%', $description) . '%';
             $params[$idx] = &$description;
             $idx++;
         }
@@ -102,6 +112,11 @@ class Product
         $db->close_stmt();
 
         return $products;
+    }
+
+    public function getID()
+    {
+        return $this->id;
     }
 
     public static function add(

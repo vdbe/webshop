@@ -1,10 +1,10 @@
 <?php
-$NEEDS_TO_BE_LOGGED_IN = 1;
-$ADMIN_ONLY = 1;
+$needs_to_be_logged_in = 1;
+$admin_only = 1;
 
-require_once __DIR__ . '/../../../include/php_header.php';
+require_once __dir__ . '/../../../include/php_header.php';
 
-//header('Content-Type: application/json; charset=utf-8');
+header('content-type: application/json; charset=utf-8');
 
 $response = array('status' => 'success');
 
