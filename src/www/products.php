@@ -29,6 +29,20 @@ require_once __DIR__ . '/include/header.php';
     </form>
 </div>
 
+<!--
+<div class="card" style="width: 18rem"><img src="/assets/placeholder.gif" class="card-img-top" alt="roll">
+    <div class="card-body">
+        <h5 class="card-title">food</h5>
+        <p class="card-subtitle text-muted">This is test 123</p>
+        <p class="mb-1">Unitprice: 9</p>
+        <input name="stock" class="card-text" type="number" id="stock-number" min="0" max="9999" value="10">
+        <p class="btn btn-primary card-link mt-1" href="#">Place order</p>
+    </div>
+</div>
+-->
+
+<br>
+
 <div id="products-wrapper" class="flex-container">
 </div>
 

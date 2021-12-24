@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS webshop.UserOrder (
 	FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
-CREATE TABLE IF NOT EXISTS webshop.Orders (
+CREATE TABLE IF NOT EXISTS webshop.Order (
 	order_id INT UNSIGNED AUTO_INCREMENT,
 	uo_id INT UNSIGNED NOT NULL,
 	product_id INT UNSIGNED NOT NULL,

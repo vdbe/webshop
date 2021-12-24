@@ -36,11 +36,11 @@ class Product
         $query = <<<SQL
             UPDATE LOW_PRIORITY IGNORE Product
             SET
-                product_name = ?
-                procuct_description = ?
-                category_id = ?
-                product_available = ?
-                product_stock = ?
+                product_name = ?,
+                product_description = ?,
+                category_id = ?,
+                product_available = ?,
+                product_stock = ?,
                 product_unitprice = ?
             WHERE
                 product_id = ?
@@ -50,6 +50,7 @@ class Product
         $category_id = Category::getID($db, $this->category);
         $db->query($query, 'ssisidi', $this->name, $this->description, $category_id, $date, $this->stock, $this->unitprice, $this->id);
         $db->close_stmt();
+        echo $db->error;
     }
 
     public static function search(DB $db, string $name = "", string $description = "", string $category = '', bool $onlyAvailable = true)
@@ -58,7 +59,7 @@ class Product
         $query = <<<SQL
         SELECT
             p.product_id as id, p.product_name as name, p.product_description as description, c.category_name as category,
-            p.product_available, p.product_stock as stock, p.product_unitprice as untiprice
+            p.product_available, p.product_stock as stock, p.product_unitprice as unitprice
         FROM Product as p
         LEFT JOIN Category AS c
             ON p.category_id = c.category_id
@@ -67,6 +68,7 @@ class Product
 
         if ($onlyAvailable == true) {
             $query .= ' p.product_available <= CURDATE()';
+            $query .= ' AND p.product_stock >= 1';
         } else {
             // Dirty fix, I know
             $query .= ' 1=1';
@@ -128,7 +130,6 @@ class Product
         int $stock,
         float $unitprice,
     ) {
-        // TODO:
         $query = <<<SQL
         INSERT INTO Product
             (product_name, product_description, category_id, product_available, product_stock, product_unitprice)
@@ -150,5 +151,30 @@ class Product
         } else {
             return true;
         }
+    }
+
+    public static function getByID(DB $db, int $id, bool $onlyAvailable = true)
+    {
+        $query = <<<SQL
+        SELECT
+            p.product_id as id, p.product_name as name, p.product_description as description, c.category_name as category,
+            p.product_available, p.product_stock as stock, p.product_unitprice as unitprice
+        FROM Product as p
+        LEFT JOIN Category AS c
+            ON p.category_id = c.category_id
+        WHERE
+                p.product_id = ?
+        SQL;
+        if ($onlyAvailable == true) {
+            $query .= ' AND p.product_available <= CURDATE()';
+        }
+
+        $db->query($query, 'i', $id);
+
+        if ($row = $db->fetch_row()) {
+            return new Product($row[0], $row[1], $row[2], $row[3], new DateTime($row[4]), $row[5], $row[6]);
+        }
+
+        return null;
     }
 }

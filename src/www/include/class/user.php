@@ -182,6 +182,11 @@ class User
         return $this->role_name;
     }
 
+    function getID()
+    {
+        return $this->id;
+    }
+
     static function getUsers(DB $db)
     {
         $query = <<<SQL
