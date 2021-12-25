@@ -4,7 +4,7 @@ $NEEDS_TO_BE_LOGGED_IN = 1;
 
 require_once __dir__ . '/../../../include/php_header.php';
 
-//header('content-type: application/json; charset=utf-8');
+header('content-type: application/json; charset=utf-8');
 
 $response = array('status' => 'success');
 
@@ -31,20 +31,20 @@ $basket = UserOrder::basket($db, $USER);
 
 $products = $basket->search($db, $name, $desc, $catg);
 
-$assoc_products = [];
+//$assoc_products = [];
+//
+//foreach ($products as $product) {
+//    $dateTime = $product->available;
+//    $date = $dateTime->format('Y-m-d H:i:s');
+//    array_push($assoc_products, array('id' => $product->getID(), 'name' => htmlspecialchars($product->name), 'description' => htmlspecialchars($product->description), 'category' => htmlspecialchars($product->category), 'available' => htmlspecialchars_decode($date), 'stock' => $product->stock, 'unitprice' => $product->unitprice));
+//}
+//
+//foreach ($assoc_products as &$element) {
+//    foreach ($element as $key => &$value) {
+//        if (gettype($value) == "string") {
+//            $element[$key] = htmlspecialchars($value);
+//        }
+//    }
+//}
 
-foreach ($products as $product) {
-    $dateTime = $product->available;
-    $date = $dateTime->format('Y-m-d H:i:s');
-    array_push($assoc_products, array('id' => $product->getID(), 'name' => htmlspecialchars($product->name), 'description' => htmlspecialchars($product->description), 'category' => htmlspecialchars($product->category), 'available' => htmlspecialchars_decode($date), 'stock' => $product->stock, 'unitprice' => $product->unitprice));
-}
-
-foreach ($assoc_products as &$element) {
-    foreach ($element as $key => &$value) {
-        if (gettype($value) == "string") {
-            $element[$key] = htmlspecialchars($value);
-        }
-    }
-}
-
-echo json_encode($assoc_products);
+echo json_encode($products);

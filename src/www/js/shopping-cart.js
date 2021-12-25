@@ -4,7 +4,7 @@ function productSearchFormOnSubmit(form) {
 }
 
 async function searchProducts(name = "", description = "", category = "") {
-  let products = await fetchProducts(name, description, category);
+  let products = await fetchProductsInBasket(name, description, category);
 
   const container = document.getElementById("products-wrapper");
 
@@ -21,7 +21,7 @@ async function displayProduct(product, container) {
   let card = document.createElement('div');
   card.setAttribute('class', 'card m-1 mx-auto');
   card.setAttribute('style', 'width: 18rem');
-  card.setAttribute('productid', product['id']);
+  card.setAttribute('orderid', product['orderid']);
 
   // TODO: Get images
   let img = document.createElement('img');
@@ -58,17 +58,19 @@ async function displayProduct(product, container) {
   itemCountInput.setAttribute('name', 'itemCount');
   itemCountInput.setAttribute('class', 'card-text');
   itemCountInput.setAttribute('type', 'number');
-  itemCountInput.setAttribute('min', 1);
+  itemCountInput.setAttribute('min', 0);
   itemCountInput.setAttribute('max', product['stock']);
-  itemCountInput.setAttribute('value', 1);
+  itemCountInput.setAttribute('value', product['amount']);
+
+  console.log(product);
 
   cardBody.appendChild(itemCountInput);
 
   // TODO: Link to js function
   let cardLink = document.createElement('p');
   cardLink.setAttribute('class', 'btn btn-primary card-link mt-1 mb-1');
-  cardLink.setAttribute('onclick', 'placeInBasketOnClick(this.parentElement.parentElement)');
-  cardLink.innerText = 'Place order';
+  cardLink.setAttribute('onclick', 'changeOrderOnClick(this.parentElement.parentElement)');
+  cardLink.innerText = 'Change order';
 
   cardBody.appendChild(cardLink);
 
@@ -79,7 +81,7 @@ async function fetchProductsInBasket(name = "", description = "", category = "",
   let data = { 'name': name, 'description': description, 'category': category };
 
   try {
-    const response = await fetch(new Request('/api/v1/product/search'), {
+    const response = await fetch(new Request('/api/v1/basket/search'), {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -101,3 +103,57 @@ async function fetchProductsInBasket(name = "", description = "", category = "",
   } catch (err) {
     console.error(err);
   }
+}
+
+async function changeOrderOnClick(card) {
+  let data = { 'id': Number(card.getAttribute('orderid')), 'amount': Number(card.childNodes[1].childNodes[3].value) };
+
+  try {
+    const response = await fetch(new Request('/api/v1/basket/edit'), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok || response.status != 200) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const json = await response.json();
+
+    const amountInput = card.childNodes[1].childNodes[3];
+    const amount = json['amount'];
+    if (amount > 0) {
+      amountInput.value = amount
+    }
+
+    searchProducts();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function update() {
+  const params = new URLSearchParams(window.location.search);
+  let name = params.get('name');
+  let description = params.get('description');
+  let category = params.get('category')
+
+  if (!name) {
+    name = "";
+  }
+  if (!description) {
+    description = "";
+  }
+  if (!category) {
+    category = "";
+  }
+
+  searchProducts(name, description, category);
+  //fillInCategories();
+}
+
+update();

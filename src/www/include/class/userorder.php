@@ -75,12 +75,118 @@ class UserOrder
         return $product->stock;
     }
 
+    public function getOrderById(DB $db, int $orderID)
+    {
+        $query = <<<SQL
+            SELECT
+                o.order_id AS id, uo.uo_id AS uo_id, o.product_id AS product_id, o.amount AS amount
+            FROM `Order` as o
+            INNER JOIN UserOrder AS uo
+                ON o.uo_id = o.uo_id
+            WHERE
+                o.order_id = ?
+                AND uo.uo_id = ?
+            SQL;
+        $db->query($query, 'ii', $orderID, $this->id);
+
+        $ret = null;
+        if ($row = $db->fetch_row()) {
+            $ret = $row;
+        }
+
+        $db->close_stmt();
+
+        return $ret;
+    }
+    public function updateItem(DB $db, int $orderID, int $newAmount)
+    {
+
+        if ($newAmount <= 0) {
+            return  $this->deleteItem($db, $orderID);
+        } else {
+            $orderRow = $this->getOrderById($db, $orderID);
+            if ($orderRow == null) {
+                echo "orderRow == null";
+                echo '<br>';
+                return -1;
+            }
+
+            $query = <<<SQL
+                UPDATE `Order`
+                SET
+                    amount = ?
+                WHERE
+                    order_id = ?
+                AND
+                    uo_id = ?
+            SQL;
+
+            $db->query($query, 'iii', $newAmount, $orderID, $this->id);
+            $db->close_stmt();
+
+            if ($db->errno) {
+                return -2;
+            } else {
+                // Update stock to reflect changes
+                $product = Product::getByOrderID($db, $orderID, false);
+                if ($product == null) {
+                    return -3;
+                }
+                $oldOrderAmount = $orderRow[3];
+
+                $stockChange = $oldOrderAmount - $newAmount;
+                $product->stock += $stockChange;
+                if ($product->update($db) == false) {
+                    return -4;
+                }
+
+                return $newAmount;
+            }
+        }
+    }
+
+    public function deleteItem(DB $db, int $orderID)
+    {
+        $orderRow = $this->getOrderById($db, $orderID);
+        if ($orderRow == null) {
+            return -1;
+        }
+
+        $query = <<<SQL
+            DELETE FROM `Order`
+            WHERE
+                order_id = ?
+            AND
+                uo_id = ?
+        SQL;
+
+        $db->query($query, 'ii', $orderID, $this->id);
+        $db->close_stmt();
+
+        if ($db->errno) {
+            return -2;
+        } else {
+            // Update stock to reflect changes
+            $product = Product::getByOrderID($db, $orderID, false);
+            if ($product == null) {
+                return -3;
+            }
+            $oldOrderAmount = $orderRow[3];
+
+            $product->stock += $oldOrderAmount;
+            if ($product->update($db) == false) {
+                return -4;
+            }
+            return 0;
+        }
+    }
+
     public function search(DB $db, $name = '', string $description = '', string $category = '', bool $onlyAvailable = false)
     {
         $query = <<<SQL
         SELECT
-            p.product_id AS id, p.product_name AS name, p.product_description AS description, c.category_name AS category,
-            p.product_available AS available, p.product_stock AS stock, p.product_unitprice AS unitprice
+            o.order_id AS orderid, p.product_name AS name, p.product_description AS description, c.category_name AS category,
+            p.product_available AS available, p.product_stock AS stock, p.product_unitprice AS unitprice, o.amount AS amount
         FROM UserOrder AS uo
         INNER JOIN `Order` AS o
             ON uo.uo_id = o.uo_id
@@ -131,13 +237,19 @@ class UserOrder
         $db->query($query, $types, $params);
         $db->execute();
 
-        $products = [];
+        $assoc_array = [];
+        $idx = 0;
         while ($row = $db->fetch_row()) {
-            array_push($products, new Product($row[0], $row[1], $row[2], $row[3], new DateTime($row[4]), $row[5], $row[6]));
+            $dateTime = new DateTime($row[4]);
+            $date = $dateTime->format('Y-m-d H:i:s');
+            $assoc_array[$idx] = array('orderid' => $row[0], 'name' => htmlspecialchars($row[1]), 'description' => htmlspecialchars($row[2]), 'category' => htmlspecialchars($row[3]), 'available' => $date, 'stock' => $row[5], 'unitprice' => $row[6], 'amount' => $row[7]);
+
+            //array_push($products, new Product($row[0], $row[1], $row[2], $row[3], new DateTime($row[4]), $row[5], $row[6]));
+            $idx++;
         }
         $db->close_stmt();
 
-        return $products;
+        return $assoc_array;
     }
 
     public static function new(

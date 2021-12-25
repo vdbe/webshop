@@ -50,7 +50,7 @@ class Product
         $category_id = Category::getID($db, $this->category);
         $db->query($query, 'ssisidi', $this->name, $this->description, $category_id, $date, $this->stock, $this->unitprice, $this->id);
         $db->close_stmt();
-        echo $db->error;
+        return !$db->errno;
     }
 
     public static function search(DB $db, string $name = "", string $description = "", string $category = '', bool $onlyAvailable = true)
@@ -169,6 +169,33 @@ class Product
         }
 
         $db->query($query, 'i', $id);
+
+        if ($row = $db->fetch_row()) {
+            return new Product($row[0], $row[1], $row[2], $row[3], new DateTime($row[4]), $row[5], $row[6]);
+        }
+
+        return null;
+    }
+
+    public static function getByOrderID(DB $db, int $orderId, bool $onlyAvailable = true): ?Product
+    {
+        $query = <<<SQL
+        SELECT
+            p.product_id as id, p.product_name as name, p.product_description as description, c.category_name as category,
+            p.product_available, p.product_stock as stock, p.product_unitprice as unitprice
+        FROM `Order` as o
+        INNER JOIN Product as p
+            ON p.product_id = o.product_id
+        LEFT JOIN Category AS c
+            ON p.category_id = c.category_id
+        WHERE
+                o.order_id = ?
+        SQL;
+        if ($onlyAvailable == true) {
+            $query .= ' AND p.product_available <= CURDATE()';
+        }
+
+        $db->query($query, 'i', $orderId);
 
         if ($row = $db->fetch_row()) {
             return new Product($row[0], $row[1], $row[2], $row[3], new DateTime($row[4]), $row[5], $row[6]);

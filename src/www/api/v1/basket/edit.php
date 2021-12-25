@@ -1,0 +1,33 @@
+<?php
+$NEEDS_TO_BE_LOGGED_IN = 1;
+
+require_once __DIR__ . '/../../../include/php_header.php';
+
+//header('Content-Type: application/json; charset=utf-8');
+
+$response = array('status' => 'success');
+
+$json = file_get_contents('php://input');
+
+if (empty($json)) {
+    http_response_code(401);
+    exit();
+}
+
+require_once __DIR__ . '/../../../include/class/db.php';
+require_once __DIR__ . '/../../../include/class/userorder.php';
+
+$db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
+$data = json_decode($json);
+//var_dump($data);
+
+$basket = UserOrder::basket($db, $USER);
+
+$a = $basket->updateItem($db, $data->id, $data->amount);
+
+if ($a >= 0) {
+    echo json_encode($response);
+} else {
+    $response['status'] = "failed";
+    echo json_encode($response);
+}

@@ -6,6 +6,7 @@ require_once __DIR__ . '/include/php_header.php';
 require_once __DIR__ . '/include/header.php';
 
 ?>
+<link rel="stylesheet" href="/css/products.css">
 
 <div id="products-wrapper" class="flex-container">
 </div>
