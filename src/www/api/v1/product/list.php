@@ -15,12 +15,11 @@ require_once __DIR__ . '/../../../include/class/product.php';
 $db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
 $products = Product::search($db);
 
-$products2 = [];
+$assoc_products = [];
 
 foreach ($products as $product) {
     $dateTime = $product->available;
     $date = $dateTime->format('Y-m-d H:i:s');
-    $obj = array('id' => $product->getID(), 'name' => $product->name, 'description' => $product->description, 'category' => $product->category, 'avaible' => $date, 'stock' => $product->stock, 'untiprice' => $product->unitprice, false);
-    array_push($products2, $obj);
+    array_push($assoc_products, array('id' => $product->getID(), 'name' => htmlspecialchars($product->name), 'description' => htmlspecialchars($product->description), 'category' => htmlspecialchars($product->category), 'available' => htmlspecialchars_decode($date), 'stock' => $product->stock, 'unitprice' => $product->unitprice));
 }
-echo json_encode($products2);
+echo json_encode($assoc_products);

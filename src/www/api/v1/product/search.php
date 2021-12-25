@@ -35,7 +35,15 @@ $assoc_products = [];
 foreach ($products as $product) {
     $dateTime = $product->available;
     $date = $dateTime->format('Y-m-d H:i:s');
-    array_push($assoc_products, array('id' => $product->getID(), 'name' => $product->name, 'description' => $product->description, 'category' => $product->category, 'available' => $date, 'stock' => $product->stock, 'unitprice' => $product->unitprice));
+    array_push($assoc_products, array('id' => $product->getID(), 'name' => htmlspecialchars($product->name), 'description' => htmlspecialchars($product->description), 'category' => htmlspecialchars($product->category), 'available' => htmlspecialchars_decode($date), 'stock' => $product->stock, 'unitprice' => $product->unitprice));
+}
+
+foreach ($assoc_products as &$element) {
+    foreach ($element as $key => &$value) {
+        if (gettype($value) == "string") {
+            $element[$key] = htmlspecialchars($value);
+        }
+    }
 }
 
 echo json_encode($assoc_products);

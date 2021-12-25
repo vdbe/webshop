@@ -94,9 +94,9 @@ function addCategory(form) {
     if (!response.ok || response.status != 200) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    updateCatgories();
   })
 
-  updateCatgories();
 
   return false;
 }
@@ -170,9 +170,9 @@ function editCategoryFormOnSubmit(form) {
     if (!response.ok || response.status != 200) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    updateCatgories();
   })
 
-  updateCatgories();
   return false;
 }
 
@@ -208,9 +208,9 @@ function editUserFormOnSubmit(form) {
     if (!response.ok || response.status != 200) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    updateCatgories();
   })
 
-  updateCatgories();
   return false;
 
 }
