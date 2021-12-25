@@ -55,7 +55,6 @@ class Product
 
     public static function search(DB $db, string $name = "", string $description = "", string $category = '', bool $onlyAvailable = true)
     {
-        // Bye bye performance
         $query = <<<SQL
         SELECT
             p.product_id as id, p.product_name as name, p.product_description as description, c.category_name as category,

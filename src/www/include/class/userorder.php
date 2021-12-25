@@ -75,6 +75,71 @@ class UserOrder
         return $product->stock;
     }
 
+    public function search(DB $db, $name = '', string $description = '', string $category = '', bool $onlyAvailable = false)
+    {
+        $query = <<<SQL
+        SELECT
+            p.product_id AS id, p.product_name AS name, p.product_description AS description, c.category_name AS category,
+            p.product_available AS available, p.product_stock AS stock, p.product_unitprice AS unitprice
+        FROM UserOrder AS uo
+        INNER JOIN `Order` AS o
+            ON uo.uo_id = o.uo_id
+        INNER JOIN Product AS p
+            ON p.product_id = o.product_id
+        LEFT JOIN Category AS c
+            ON p.category_id = c.category_id
+        WHERE uo.uo_id = ?
+        SQL;
+
+
+        $params = array();
+        $types = 'i';
+        $params[0] = &$this->id;
+
+        $idx = 1;
+
+        if ($onlyAvailable == true) {
+            $query .= ' AND p.product_available <= CURDATE()';
+            $query .= ' AND p.product_stock >= 1';
+        }
+
+        if (!empty($name)) {
+            $query .= ' AND p.product_name LIKE ?';
+            $types .= 's';
+
+            $name = '%' . str_replace(' ', '%', $name) . '%';
+            $params[$idx] = &$name;
+            $idx++;
+        }
+
+        if (!empty($description)) {
+            $query .= ' AND p.product_description LIKE ?';
+            $types .= 's';
+
+            $description = '%' . str_replace(' ', '%', $description) . '%';
+            $params[$idx] = &$description;
+            $idx++;
+        }
+
+        if (!empty($category)) {
+            $query .= ' AND c.category_name = ?';
+            $types .= 's';
+            $params[$idx] = &$category;
+            $idx++;
+        }
+
+        $db->query($query, $types, $params);
+        $db->execute();
+
+        $products = [];
+        while ($row = $db->fetch_row()) {
+            array_push($products, new Product($row[0], $row[1], $row[2], $row[3], new DateTime($row[4]), $row[5], $row[6]));
+        }
+        $db->close_stmt();
+
+        return $products;
+    }
+
     public static function new(
         DB $db,
         int $user_id,
