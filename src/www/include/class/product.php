@@ -148,7 +148,7 @@ class Product
             // TODO: Error handling
             exit($db->error);
         } else {
-            return true;
+            return $db->getInserID();
         }
     }
 

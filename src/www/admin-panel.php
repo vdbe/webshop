@@ -20,7 +20,7 @@ require_once __DIR__ . '/include/header.php';
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="newproduct-form" onsubmit="return addProduct(this)" enctype="multipart/form-data">
+                <form id="newproduct-form" onsubmit="return addProduct(this)">
                     <div class="mb-3">
                         <label for="product-name" class="col-form-label">Name:</label>
                         <input name="name" type="text" class="form-control" id="product-name">
@@ -45,6 +45,9 @@ require_once __DIR__ . '/include/header.php';
                     <div class="mb-3">
                         <label for="unitprice-number" class="col-form-label">Unit price:</label>
                         <input name="unitprice" type="number" id="unitprice-number" step="0.01" min="0.01" max="9999" value="10">
+                    </div>
+                    <div class="mb-3">
+                        <label for="product-images" class="col-form-label">Pictures: </label>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

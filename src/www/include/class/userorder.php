@@ -24,9 +24,50 @@ class UserOrder
         $this->payedat = $payedat;
     }
 
-    public function getID()
+    public function getID(): int
     {
         return $this->id;
+    }
+
+    public function placeOrder(DB $db): int
+    {
+        if ($this->basket == false) {
+            // Order already placed
+            return 0;
+        }
+
+        $query = <<<SQL
+        UPDATE UserOrder
+        SET
+            uo_basket = 0,
+            uo_date = CURDATE()
+        WHERE
+            uo_id = ?;
+        SQL;
+        $db->query($query, 'i', $this->id);
+        $db->close_stmt();
+
+        return !$db->errno;
+    }
+
+    public function confirmPayment(DB $db)
+    {
+        if ($this->basket == true || $this->date == null) {
+            // Still a basket
+            return 0;
+        }
+
+        $query = <<<SQL
+        UPDATE UserOrder
+        SET
+            uo_payedat = CURDATE()
+        WHERE
+            uo_id = ?;
+        SQL;
+        $db->query($query, 'i', $this->id);
+        $db->close_stmt();
+
+        return $db->errno;
     }
 
     /**

@@ -9,7 +9,7 @@ require_once __DIR__ . '/include/header.php';
 <link rel="stylesheet" href="/css/products.css">
 
 <div class="container">
-    <form id="products-search-form" onsubmit="return productSearchFormOnSubmit(this)" method="POST">
+    <form id="products-search-form" onsubmit="return productSearchFormOnSubmit(this); return false;" method="POST">
         <div class="row">
             <div class="col-sm">
                 <input name="name" placeholder="Search name" type="text" class="form-control" id="product-search-form-name">
@@ -28,20 +28,6 @@ require_once __DIR__ . '/include/header.php';
         </div>
     </form>
 </div>
-
-<!--
-<div class="card" style="width: 18rem"><img src="/assets/placeholder.gif" class="card-img-top" alt="roll">
-    <div class="card-body">
-        <h5 class="card-title">food</h5>
-        <p class="card-subtitle text-muted">This is test 123</p>
-        <p class="mb-1">Unitprice: 9</p>
-        <input name="stock" class="card-text" type="number" id="stock-number" min="0" max="9999" value="10">
-        <p class="btn btn-primary card-link mt-1" href="#">Place order</p>
-    </div>
-</div>
--->
-
-<br>
 
 <div id="products-wrapper" class="flex-container">
 </div>

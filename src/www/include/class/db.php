@@ -226,4 +226,9 @@ class DB
 
         return $result->fetch_row();
     }
+
+    public function getInserID(): int
+    {
+        return mysqli_insert_id($this->connection);
+    }
 }

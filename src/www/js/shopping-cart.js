@@ -8,13 +8,43 @@ async function searchProducts(name = "", description = "", category = "") {
 
   const container = document.getElementById("products-wrapper");
 
+  let totalPrice = 0;
   let tmpcontainer = document.createElement('div');
   for (let ii = 0; ii < products.length; ii++) {
     const product = products[ii];
     displayProduct(product, tmpcontainer);
+    console.log(product);
+    totalPrice += product['amount'] * product['unitprice'];
   }
 
+  document.getElementById('price').innerText = `Total price: ${totalPrice}`;
+
   container.innerHTML = tmpcontainer.innerHTML;
+}
+
+async function placeOrderFormOnSubmit(_form) {
+  try {
+    const response = await fetch(new Request('/api/v1/basket/placeorder'), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    });
+
+    if (!response.ok || response.status != 200) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const products = await response.json();
+
+    if (callback) {
+      callback();
+    }
+    return products
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 async function displayProduct(product, container) {
@@ -61,8 +91,6 @@ async function displayProduct(product, container) {
   itemCountInput.setAttribute('min', 0);
   itemCountInput.setAttribute('max', product['stock']);
   itemCountInput.setAttribute('value', product['amount']);
-
-  console.log(product);
 
   cardBody.appendChild(itemCountInput);
 

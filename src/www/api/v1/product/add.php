@@ -32,6 +32,8 @@ if ($data->available == true) {
 }
 
 
-Product::add($db, $data->name, $data->description, $data->categories, $date, $stock, $unitprice);
+$productid = Product::add($db, $data->name, $data->description, $data->categories, $date, $stock, $unitprice);
+
+$response['productid'] = $productid;
 
 echo json_encode($response);
