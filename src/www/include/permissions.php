@@ -17,11 +17,11 @@ if ($LOGGED_IN == 1) {
     }
 }
 
-// Check permission
+// Check permissions
 if (isset($NEEDS_TO_BE_LOGGED_IN)) {
     if ($NEEDS_TO_BE_LOGGED_IN == 1) {
         if ($LOGGED_IN == 0) {
-            header("Location: http://" . $_SERVER['HTTP_HOST']);
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/login");
         }
     } elseif ($NEEDS_TO_BE_LOGGED_IN == 0) {
         if ($LOGGED_IN == 1) {

@@ -53,6 +53,7 @@ async function displayProduct(product, container) {
   card.setAttribute('style', 'width: 18rem');
   card.setAttribute('orderid', product['orderid']);
 
+  /*
   // TODO: Get images
   let img = document.createElement('img');
   img.setAttribute('src', '/assets/placeholder.gif');
@@ -60,6 +61,7 @@ async function displayProduct(product, container) {
   img.setAttribute('alt', 'roll');
 
   card.appendChild(img);
+  */
 
   let cardBody = document.createElement('div');
   cardBody.setAttribute('class', 'card-body');

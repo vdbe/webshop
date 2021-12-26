@@ -194,7 +194,6 @@ function updateEditProductsForm(select) {
   }
 
   const product = products[index];
-  console.log(product);
 
   const upstreamCategoryName = product['category'];
   let categoryIndex = 0;

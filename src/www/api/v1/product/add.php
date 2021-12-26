@@ -22,7 +22,7 @@ $db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
 $data = json_decode($json);
 
 $stock = (int)$data->stock;
-$unitprice = (float)$data->stock;
+$unitprice = (float)$data->unitprice;
 
 if ($data->available == true) {
     //$date = date('Y-m-d');

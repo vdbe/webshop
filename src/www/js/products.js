@@ -9,6 +9,7 @@ async function displayProduct(product, container) {
   card.setAttribute('style', 'width: 18rem');
   card.setAttribute('productid', product['id']);
 
+  /*
   // TODO: Get images
   let img = document.createElement('img');
   img.setAttribute('src', '/assets/placeholder.gif');
@@ -16,6 +17,7 @@ async function displayProduct(product, container) {
   img.setAttribute('alt', 'roll');
 
   card.appendChild(img);
+  */
 
   let cardBody = document.createElement('div');
   cardBody.setAttribute('class', 'card-body');
@@ -30,7 +32,7 @@ async function displayProduct(product, container) {
 
   let cardText = document.createElement('p');
   cardText.setAttribute('class', 'card-subtitle text-muted');
-  cardText.innerText = product['description'];
+  cardText.innerHTML = product['description'];
 
   cardBody.appendChild(cardText);
 

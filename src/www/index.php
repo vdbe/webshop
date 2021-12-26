@@ -1,65 +1,71 @@
 <?php
 require_once 'include/header.php';
 
-if (isset($_SESSION['user'])) {
-  var_dump($_SESSION['user']);
-  echo '<br>';
-}
+?>
+<!-- <h1>Welcome to &#35;&#36;&#64;&#33;&#37; CSS</h1> -->
+<h1>Welcome to Bricks</h1>
 
-include 'include/class/db.php';
+<h2>a site with as little self-written css as possible, just strong concrete HTML</h2>
+<p><strong>We sell bricks:</strong></b1>
+<ul>
+  <li>
+    Burnt Clay Bricks
+  </li>
+  <li>
+    Sun-Dried Clay Bricks
+  </li>
+  <li>
+    Concrete Bricks
+  </li>
+  <li>
+    Engineering Bricks
+  </li>
+  <li>
+    Fly Ash Bricks
+  </li>
+  <li>
+    Fish Ash Bricks
+  </li>
+  <li>
+    Firebricks
+  </li>
+  <li>
+    Waterbricks
+  </li>
+  <li>
+    Nokia Bricks
+  </li>
+  <li>
+    Extruded Bricks
+  </li>
+  <li>
+    Intruded Bricks
+  </li>
+  <li>
+    Extroverted Bricks
+  </li>
+  <li>
+    Introverted Bricks
+  </li>
+  <li>
+    Holy Bricks
+  </li>
+  <li>
+    Unholy Bricks
+  </li>
+  <li>
+    Christmas Bricks
+  </li>
+  <li>
+    Not Bricks
+  </li>
+  <li>
+    Lego Bricks
+  </li>
+  <li>
+    Large lego Bricks
+  </li>
+</ul>
 
-
-
-/* Empty table */
-$db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
-
-//$db->query('DELETE FROM Category;');
-
-/* Insert rows */
-//$category_name = 'food';
-//$category_description = 'any nutritious substance that people or animals eat or drink or that plants absorb in order to maintain life and growth.';
-//
-//$query = 'INSERT INTO Category (category_name, category_description) VALUES (?, ?)';
-//$db->query($query, 'ss', array(&$category_name, &$category_description));
-//
-//if ($db->errno) {
-//  exit($db->error);
-//}
-//$db->execute();
-//
-//if ($db->errno) {
-//  exit($db->error);
-//}
-//
-//$category_name = 'bricks';
-//$category_description = 'Small rectangular blocks';
-//$db->execute();
-//
-//$category_name = 'electronics';
-//$category_description = 'circuits or devices . using transistors, microchips, and other components.';
-//$db->execute();
-//
-//$db->close_stmt();
-//
-///* Select rows */
-//$db->query('SELECT * FROM Category WHERE category_name like ?', 's', '%s');
-//
-//if ($db->errno) {
-//  exit($db->error);
-//}
-//
-//$results = $db->fetch_all(MYSQLI_ASSOC);
-//
-//if ($db->errno) {
-//  exit($db->error);
-//}
-//
-//foreach ($results as $result) {
-//  echo $result['category_id'] . ', ' . $result['category_name'] . ', ' . $result['category_description'] . '<br>';
-//}
-//
-//var_dump($db->query('SELECT * FROM Category WHERE category_name like ?', 's', '%o%')->fetch_all());
-
-/* Close db connection */
-$db->close();
+<?php
 require_once 'include/footer.php';

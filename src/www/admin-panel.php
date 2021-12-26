@@ -41,7 +41,7 @@ require_once __DIR__ . '/include/header.php';
                     </div>
                     <div class="mb-3">
                         <label for="stock-number" class="col-form-label">Stock:</label>
-                        <input name="stock" type="number" id="stock-number" min="0" max="9999" value="10">
+                        <input name="stock" type="number" id="stock-number" min="0" max="99999" value="10">
                     </div>
                     <div class="mb-3">
                         <label for="unitprice-number" class="col-form-label">Unit price:</label>
@@ -109,7 +109,7 @@ require_once __DIR__ . '/include/header.php';
                         <input name="name" type="text" class="form-control" id="edit-category-category-name">
                     </div>
                     <div class="mb-3">
-                        <label for="edit-category-description-text" class="col-form-label">Displayname:</label>
+                        <label for="edit-category-description-text" class="col-form-label">Description:</label>
                         <textarea name="description" class="form-control" id="edit-category-description-text"></textarea>
                     </div>
                     <div class="modal-footer">
