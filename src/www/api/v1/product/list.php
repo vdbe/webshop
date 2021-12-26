@@ -13,7 +13,7 @@ require_once __DIR__ . '/../../../include/class/db.php';
 require_once __DIR__ . '/../../../include/class/product.php';
 
 $db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
-$products = Product::search($db);
+$products = Product::search($db, '', '', '', false);
 
 $assoc_products = [];
 

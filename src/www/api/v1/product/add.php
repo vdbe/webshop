@@ -31,9 +31,15 @@ if ($data->available == true) {
     $date = new DateTime('2999-01-01');
 }
 
+if (empty($data->id)) {
+    $productid = Product::add($db, $data->name, $data->description, $data->categories, $date, $stock, $unitprice);
+    $response['productid'] = $productid;
+} else {
+    $productid = $data->id;
+    $product = new Product($productid, $data->name, $data->description, $data->categories, $date, $stock, $unitprice);
+    $product->update($db);
+}
 
-$productid = Product::add($db, $data->name, $data->description, $data->categories, $date, $stock, $unitprice);
 
-$response['productid'] = $productid;
 
 echo json_encode($response);
