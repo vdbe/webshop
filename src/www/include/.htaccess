@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteRule ^.*(?<!config\.ini)$ empty.html [NC,L]
+RewriteRule (?<!config\.ini)$ empty.html [NC,L]
 
 <FILES "config.ini">
 	Allow from all
