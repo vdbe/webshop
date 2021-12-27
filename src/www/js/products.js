@@ -141,7 +141,7 @@ async function searchProducts(name = "", description = "", category = "") {
 }
 
 async function placeInBasketOnClick(card) {
-  let data = { 'id': Number(card.getAttribute('productid')), 'amount': Number(card.childNodes[1].childNodes[3].value) };
+  let data = { 'id': Number(card.getAttribute('productid')), 'amount': Number(card.childNodes[0].childNodes[3].value) };
 
   try {
     const response = await fetch(new Request('/api/v1/basket/add'), {
@@ -161,7 +161,7 @@ async function placeInBasketOnClick(card) {
 
     const stock = result['stock'];
     if (stock > 0) {
-      const countInput = card.childNodes[1].childNodes[3];
+      const countInput = card.childNodes[0].childNodes[3];
       countInput.setAttribute('max', stock);
       if (countInput.value > stock) {
         countInput.value = stock;

@@ -50,6 +50,30 @@ class UserOrder
         return !$db->errno;
     }
 
+    public function getPrice(DB $db)
+    {
+        if ($this->basket == false) {
+            // Order already placed
+            return 0;
+        }
+
+        $query = <<<SQL
+            SELECT SUM(o.amount * p.product_unitprice) as toal FROM `Order` AS o
+            INNER JOIN Product AS p ON o.product_id = p.product_id
+            WHERE o.uo_id = ?
+            GROUP BY o.uo_id
+        SQL;
+        $db->query($query, 'i', $this->id);
+        $row = $db->fetch_row();
+        $db->close_stmt();
+
+        if ($row == null || $db->errno) {
+            return -1;
+        } else {
+            return $row[0];
+        }
+    }
+
     public function confirmPayment(DB $db)
     {
         if ($this->basket == true || $this->date == null) {
