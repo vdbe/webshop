@@ -88,7 +88,6 @@ class User
         string $password,
         int $active,
     ): bool {
-        // TODO: Check if displayname already exists
         $query = <<<SQL
         INSERT INTO User
             (ur_id, user_displayname, user_firstname, user_lastname, user_email, user_dateofbirth, user_passwordhash, user_active)
@@ -101,7 +100,8 @@ class User
         $db->query($query, 'issssssi', $role_id, $displayname, $firstname, $lastname, $email, $data_of_birth, $passwordhash, $active);
         $db->close_stmt();
         if ($db->errno) {
-            // TODO: Error handling
+            $log = new ErrorLog($db->errno, "Could not create user", __FILE__, __LINE__);
+            $log->WriteError();
             exit($db->error);
         }
 
@@ -171,7 +171,9 @@ class User
         $db->query($query, 'si', $current_datetime, $this->id);
         $db->close_stmt();
         if ($db->errno) {
-            exit($db->error);
+            $log = new ErrorLog($db->errno, "Could not update last login for user with id: " . $this->id, __FILE__, __LINE__);
+            $log->WriteError();
+            return false;
         }
 
         return true;
@@ -203,6 +205,12 @@ class User
         $result = $db->fetch_all(MYSQLI_ASSOC);
         $db->close_stmt();
 
+        if ($db->errno) {
+            $log = new ErrorLog($db->errno, "Could not get user", __FILE__, __LINE__);
+            $log->WriteError();
+            return null;
+        }
+
         return $result;
     }
 
@@ -221,6 +229,10 @@ class User
         $db->query($query, 'ssii', $displayname, $rolename, $active, $id);
         $db->close_stmt();
 
+        if ($db->errno) {
+            $log = new ErrorLog($db->errno, "Could not change user", __FILE__, __LINE__);
+            $log->WriteError();
+        }
         return !$db->errno;
     }
 }

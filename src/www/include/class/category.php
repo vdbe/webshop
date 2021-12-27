@@ -27,6 +27,10 @@ class Category
         $db->query($query, 'ssi', $this->name, $this->description, $this->id);
         $db->close_stmt();
 
+        if ($db->errno) {
+            $log = new ErrorLog($db->errno, "Could not update category " . $this->id, __FILE__, __LINE__);
+            $log->WriteError();
+        }
         return !$db->errno;
     }
 
@@ -39,6 +43,11 @@ class Category
 
         $db->query($query);
 
+        if ($db->errno) {
+            $log = new ErrorLog($db->errno, "Could not get categories", __FILE__, __LINE__);
+            $log->WriteError();
+        }
+
         return $db->fetch_all(MYSQLI_ASSOC);
     }
 
@@ -50,6 +59,11 @@ class Category
         SQL;
         $db->query($query, 'ss', $name, $description);
         $db->close_stmt();
+
+        if ($db->errno) {
+            $log = new ErrorLog($db->errno, "Could not add category: " . $name, __FILE__, __LINE__);
+            $log->WriteError();
+        }
 
         return !$db->errno;
     }

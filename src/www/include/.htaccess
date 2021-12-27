@@ -1,1 +1,4 @@
+<Files "config.ini">
+	Allow from all
+</FILES>
 Deny from all

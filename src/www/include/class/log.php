@@ -2,7 +2,7 @@
 
 class ErrorLog
 {
-    const ERROR_FILE = "../../log/siteerrors.log";
+    const ERROR_FILE = __DIR__ . "/../../log/siteerrors.log";
     private $errno;
     private $errMsg;
     private $errFile;
@@ -18,9 +18,10 @@ class ErrorLog
 
     public function WriteError()
     {
-        $error = "Error logged: " . date("Y-m-d H:i:s - ");
-        $error .= "[ " . $this->errno . " ]: ";
-        $error .= $this->errMsg . " in file " . $this->errFile . " on line " . $this->errLine . "\n";
+        $error = "[" . date("Y-m-d H:i:s") . "]";
+        $error .= " [ERROR:" . $this->errno . "]";
+        $error .= " [" . $this->errFile . ":" . $this->errLine . "]";
+        $error .= ": " . $this->errMsg . "\n";
 
         // Log details of error in a file
         error_log($error, 3, self::ERROR_FILE);

@@ -5,7 +5,7 @@ require_once 'include/header.php';
 <!-- <h1>Welcome to &#35;&#36;&#64;&#33;&#37; CSS</h1> -->
 <h1>Welcome to Bricks</h1>
 
-<h2>a site with as little self-written css as possible, just strong concrete HTML</h2>
+<h2>A site with as little self-written css as possible, just strong concrete HTML</h2>
 <p><strong>We sell bricks:</strong></b1>
 <ul>
   <li>

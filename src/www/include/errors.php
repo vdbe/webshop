@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/log.php";
+require_once __DIR__ . "/class/log.php";
 
 function handleErrors($errno, $errMsg, $errFile, $errLine)
 {

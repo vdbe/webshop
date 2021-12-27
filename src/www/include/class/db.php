@@ -38,6 +38,8 @@ class DB
 
     private function error($errno, $error): int
     {
+        $log = new ErrorLog($errno, $error, $_SERVER["SCRIPT_FILENAME"], 0);
+        $log->WriteError();
         // Keep first error
         if ($this->errno == 0) {
             $this->error = $error;

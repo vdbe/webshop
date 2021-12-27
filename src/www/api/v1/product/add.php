@@ -31,13 +31,23 @@ if ($data->available == true) {
     $date = new DateTime('2999-01-01');
 }
 
-if (empty($data->id)) {
-    $productid = Product::add($db, $data->name, $data->description, $data->categories, $date, $stock, $unitprice);
-    $response['productid'] = $productid;
-} else {
-    $productid = $data->id;
-    $product = new Product($productid, $data->name, $data->description, $data->categories, $date, $stock, $unitprice);
-    $product->update($db);
+try {
+    if (empty($data->id)) {
+        $productid = Product::add($db, $data->name, $data->description, $data->categories, $date, $stock, $unitprice);
+        $response['productid'] = $productid;
+    } else {
+        $productid = $data->id;
+        $product = new Product($productid, $data->name, $data->description, $data->categories, $date, $stock, $unitprice);
+        $product->update($db);
+    }
+
+    if ($productid < 0) {
+        throw new Exception("Failed to add/edit product", $productid);
+    }
+} catch (Exception $e) {
+    $log = new ErrorLog($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
+    $log->WriteError();
+    exit($this->getMessage());
 }
 
 

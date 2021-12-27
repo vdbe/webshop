@@ -63,7 +63,7 @@ async function displayProduct(product, container) {
   container.appendChild(card);
 }
 
-async function fetchProducts(name = "", description = "", category = "", callback) {
+async function fetchProducts(name = "", description = "", category = "") {
   let data = { 'name': name, 'description': description, 'category': category };
 
   try {
@@ -82,16 +82,13 @@ async function fetchProducts(name = "", description = "", category = "", callbac
 
     const products = await response.json();
 
-    if (callback) {
-      callback();
-    }
     return products
   } catch (err) {
     console.error(err);
   }
 }
 
-async function fetchCategories(callback) {
+async function fetchCategories() {
   try {
     const response = await fetch(new Request('/api/v1/category/list'), {
       method: 'POST',
@@ -105,10 +102,6 @@ async function fetchCategories(callback) {
     }
 
     const categories = await response.json();
-
-    if (callback) {
-      callback();
-    }
 
     return categories
   } catch (err) {

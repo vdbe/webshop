@@ -112,6 +112,11 @@ class Product
         }
         $db->close_stmt();
 
+        if ($db->errno) {
+            $log = new ErrorLog($db->errno, "Failed product search with params: `" . var_export($params), __FILE__, __LINE__);
+            $log->WriteError();
+        }
+
         return $products;
     }
 
@@ -145,7 +150,8 @@ class Product
         $date = date_format($available, 'Y-m-d');
         $db->query($query, 'ssisid', $name, $description, $category_id, $date, $stock,  $unitprice);
         if ($db->errno) {
-            // TODO: Error handling
+            $log = new ErrorLog($db->errno, "failed to add porduct", __FILE__, __LINE__);
+            $log->WriteError();
             exit($db->error);
         } else {
             return $db->getInserID();
