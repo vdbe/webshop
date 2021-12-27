@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             require_once 'include/class/db.php';
             require_once 'include/class/user.php';
 
-            $db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
+            $db = new DB();
 
             $email = $_POST['email'];
             $password = $_POST['password'];

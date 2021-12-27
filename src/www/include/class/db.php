@@ -14,14 +14,10 @@ class DB
     public int $errno = 0;
     public string $error = '';
 
-    public function __construct(
-        string $hostname,
-        string $username,
-        string $password,
-        string $database,
-    ) {
+    public function __construct()
+    {
         /* Open connection to db */
-        $mysqli = new mysqli($hostname, $username, $password, $database);
+        $mysqli = new mysqli('database', 'Webuser', 'Lab2021', 'webshop');
         if ($mysqli->connect_errno) {
             exit($this->error($mysqli->connect_errno, 'Faile to connect to database: ' . $mysqli->connect_error));
         }

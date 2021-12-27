@@ -5,7 +5,7 @@ require_once __DIR__ . '../../../../include/class/db.php';
 require_once __DIR__ . '../../../../include/class/userrole.php';
 
 
-$db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
+$db = new DB();
 $roles = UserRole::getRoles($db);
 
 foreach ($roles as &$role) {

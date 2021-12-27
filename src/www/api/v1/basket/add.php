@@ -19,7 +19,7 @@ if (empty($json)) {
     exit();
 }
 
-$db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
+$db = new DB();
 $data = json_decode($json);
 
 $basket = UserOrder::basket($db, $USER);

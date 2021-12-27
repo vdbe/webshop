@@ -1,4 +1,13 @@
-<Files "config.ini">
+RewriteEngine On
+RewriteRule ^.*(?<!config\.ini)$ empty.html [NC,L]
+
+<FILES "config.ini">
 	Allow from all
 </FILES>
-Deny from all
+
+<FILES "empty.html">
+	Allow from all
+</FILES>
+
+#Deny from all
+

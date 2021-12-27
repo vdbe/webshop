@@ -11,7 +11,7 @@ $response = array('status' => 'success');
 require_once __DIR__ . '/../../../include/class/db.php';
 require_once __DIR__ . '/../../../include/class/product.php';
 
-$db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
+$db = new DB();
 
 $json = file_get_contents('php://input');
 

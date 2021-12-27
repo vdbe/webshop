@@ -18,7 +18,7 @@ if (empty($json)) {
 require_once __DIR__ . '/../../../include/class/db.php';
 require_once __DIR__ . '/../../../include/class/category.php';
 
-$db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
+$db = new DB();
 $data = json_decode($json);
 
 if (Category::add($db, $data->name, $data->description)) {

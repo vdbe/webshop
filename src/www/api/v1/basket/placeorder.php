@@ -12,7 +12,7 @@ require_once __DIR__ . '../../../../include/class/userorder.php';
 
 $response = array('status' => 'success');
 
-$db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
+$db = new DB();
 
 $basket = UserOrder::basket($db, $USER);
 if ($basket->placeorder($db)) {

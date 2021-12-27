@@ -5,7 +5,7 @@ require_once __DIR__ . '../../../../include/class/db.php';
 require_once __DIR__ . '../../../../include/class/category.php';
 
 
-$db = new DB('database', 'Webuser', 'Lab2021', 'webshop');
+$db = new DB();
 $categories = Category::getCategories($db);
 
 foreach ($categories as &$category) {
