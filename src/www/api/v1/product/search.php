@@ -1,7 +1,5 @@
 <?php
 
-$NEEDS_TO_BE_LOGGED_IN = 1;
-
 require_once __dir__ . '/../../../include/php_header.php';
 
 header('content-type: application/json; charset=utf-8');

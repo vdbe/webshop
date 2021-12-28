@@ -42,23 +42,24 @@ async function displayProduct(product, container) {
 
   cardBody.appendChild(priceText);
 
-  let itemCountInput = document.createElement('input');
-  itemCountInput.setAttribute('name', 'itemCount');
-  itemCountInput.setAttribute('class', 'card-text');
-  itemCountInput.setAttribute('type', 'number');
-  itemCountInput.setAttribute('min', 1);
-  itemCountInput.setAttribute('max', product['stock']);
-  itemCountInput.setAttribute('value', 1);
+  if (LOGGED_IN) {
+    let itemCountInput = document.createElement('input');
+    itemCountInput.setAttribute('name', 'itemCount');
+    itemCountInput.setAttribute('class', 'card-text');
+    itemCountInput.setAttribute('type', 'number');
+    itemCountInput.setAttribute('min', 1);
+    itemCountInput.setAttribute('max', product['stock']);
+    itemCountInput.setAttribute('value', 1);
 
-  cardBody.appendChild(itemCountInput);
+    cardBody.appendChild(itemCountInput);
 
-  // TODO: Link to js function
-  let cardLink = document.createElement('p');
-  cardLink.setAttribute('class', 'btn btn-primary card-link mt-1 mb-1');
-  cardLink.setAttribute('onclick', 'placeInBasketOnClick(this.parentElement.parentElement)');
-  cardLink.innerText = 'Place order';
+    let cardLink = document.createElement('p');
+    cardLink.setAttribute('class', 'btn btn-primary card-link mt-1 mb-1');
+    cardLink.setAttribute('onclick', 'placeInBasketOnClick(this.parentElement.parentElement)');
+    cardLink.innerText = 'Place order';
 
-  cardBody.appendChild(cardLink);
+    cardBody.appendChild(cardLink);
+  }
 
   container.appendChild(card);
 }

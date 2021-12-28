@@ -40,6 +40,7 @@ async function placeOrderFormOnSubmit(_form) {
     if (callback) {
       callback();
     }
+    searchProducts();
     return products
   } catch (err) {
     console.error(err);
