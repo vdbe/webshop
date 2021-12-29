@@ -76,12 +76,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                     <div class="form-outline form-white mb-4">
                                         <input type="email" id="email" name="email" class="form-control form-control-lg" required />
-                                        <label class="form-label" for="typeEmailX">Email</label>
+                                        <label class="form-label" for="email">Email</label>
                                     </div>
 
                                     <div class="form-outline form-white mb-4">
                                         <input type="password" id="password" name="password" class="form-control form-control-lg" />
-                                        <label class="form-label" for="passord">Password</label>
+                                        <label class="form-label" for="password">Password</label>
                                     </div>
 
                                     <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>

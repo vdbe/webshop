@@ -7,7 +7,7 @@ async function displayProduct(product, container) {
   let card = document.createElement('div');
   card.setAttribute('class', 'card m-1 mx-auto');
   card.setAttribute('style', 'width: 18rem');
-  card.setAttribute('productid', product['id']);
+  card.setAttribute('data-productid', product['id']);
 
   /*
   // TODO: Get images
@@ -142,7 +142,7 @@ async function searchProducts(name = "", description = "", category = "") {
 }
 
 async function placeInBasketOnClick(card) {
-  let data = { 'id': Number(card.getAttribute('productid')), 'amount': Number(card.childNodes[0].childNodes[3].value) };
+  let data = { 'id': Number(card.getAttribute('data-productid')), 'amount': Number(card.childNodes[0].childNodes[3].value) };
 
   try {
     const response = await fetch(new Request('/api/v1/basket/add'), {

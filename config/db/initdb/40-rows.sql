@@ -6,15 +6,17 @@ INSERT INTO UserRole (`ur_id`, `ur_name`) VALUES
 (1, 'client'),
 (2, 'admin');
 
-/* admin@localhost.local:toor123 */
-INSERT INTO `User` (`user_id`, `ur_id`, `user_displayname`, `user_firstname`, `user_lastname`, `user_email`, `user_lastlogin`, `user_dateofbirth`, `user_passwordhash`, `user_active`) VALUES (1, 2, 'admin', 'super', 'admin', 'admin@localhost.local', '2021-12-26 15:11:46', '1970-01-01 00:00:00', '$2y$10$IhiaLBIisoiJmVgun8oa5OK3YD2Z95GULpRMs9hEUild1xnU1ZYTu', 1);
+/* admin@localhost.local:toor123   */
+/* webuser@localhost.local:Lab2021 */
+INSERT INTO `User` (`user_id`, `ur_id`, `user_displayname`, `user_firstname`, `user_lastname`, `user_email`, `user_lastlogin`, `user_dateofbirth`, `user_passwordhash`, `user_active`) VALUES
+(1, 2, 'admin', 'super', 'admin', 'admin@localhost.local', '2021-12-29 09:05:35', '1970-01-01 00:00:00', '$2y$10$IhiaLBIisoiJmVgun8oa5OK3YD2Z95GULpRMs9hEUild1xnU1ZYTu', 1),
+(2, 2, 'Webuser', 'Webuser', 'Webuser', 'webuser@localhost.local', '2021-12-29 09:05:56', '1970-01-01 00:00:00', '$2y$10$.PbRzm/ux6muX/y3iHIH9uD/Ww8U/oYYe.R5CTA3oeJ0u2Y7MtRvu', 1);
 
 INSERT INTO `Category` (`category_id`, `category_name`, `category_description`) VALUES
 (1, 'Not bricks', 'No idea what this is doing here'),
 (2, 'Special bricks', 'Not so ordinary bricks'),
 (3, 'Child bricks', 'For children, DO NOT EAT'),
 (4, 'Normal bricks', 'Just plain old normal bricks');
-
 
 INSERT INTO `Product` (`product_id`, `category_id`, `product_name`, `product_description`, `product_available`, `product_stock`, `product_unitprice`) VALUES
 (1, 4, 'Burnt Clay Bricks', 'Burned in the furnaces of hell!', '1970-01-01 00:00:00', 1000, 5.00),

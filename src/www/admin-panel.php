@@ -13,7 +13,7 @@ require_once __DIR__ . '/include/header.php';
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editUserModal" data-bs-whatever="@getbootstrap">Edit User</button>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProductModal" data-bs-whatever="@getbootstrap">Edit Product</button>
 
-<div class="modal fade" id="newProductModal" tabindex="-1" aria-labelledby="newProductModalLabel" aria-hidden="true">
+<div class="modal fade" id="newProductModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -27,8 +27,8 @@ require_once __DIR__ . '/include/header.php';
                         <input name="name" type="text" class="form-control" id="product-name">
                     </div>
                     <div class="mb-3">
-                        <label for="desription-text" class="col-form-label">Description:</label>
-                        <textarea name="description" class="form-control" id="description-text"></textarea>
+                        <label for="newProduct-description-text" class="col-form-label">Description:</label>
+                        <textarea name="description" class="form-control" id="newProduct-description-text"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="categories-select" class="col-form-label">Category:</label>
@@ -63,7 +63,7 @@ require_once __DIR__ . '/include/header.php';
 </div>
 
 
-<div class="modal fade" id="newCategoryModal" tabindex="-1" aria-labelledby="newCategoryModalLabel" aria-hidden="true">
+<div class="modal fade" id="newCategoryModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -77,8 +77,8 @@ require_once __DIR__ . '/include/header.php';
                         <input name="name" type="text" class="form-control" id="category-name">
                     </div>
                     <div class="mb-3">
-                        <label for="desription-text" class="col-form-label">Description:</label>
-                        <textarea name="description" class="form-control" id="description-text"></textarea>
+                        <label for="newCategory-description-text" class="col-form-label">Description:</label>
+                        <textarea name="description" class="form-control" id="newCategory-description-text"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -90,7 +90,7 @@ require_once __DIR__ . '/include/header.php';
     </div>
 </div>
 
-<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -122,7 +122,7 @@ require_once __DIR__ . '/include/header.php';
     </div>
 </div>
 
-<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -142,7 +142,7 @@ require_once __DIR__ . '/include/header.php';
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="editUser-displayname-text" class="col-form-label">Displayname:</label>
+                        <label for="editUser-displayname" class="col-form-label">Displayname:</label>
                         <input name="displayname" type="text" class="form-control" id="editUser-displayname">
                     </div>
                     <div class="mb-3">
@@ -159,7 +159,7 @@ require_once __DIR__ . '/include/header.php';
     </div>
 </div>
 
-<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -178,7 +178,7 @@ require_once __DIR__ . '/include/header.php';
                         <input name="name" type="text" class="form-control" id="editProduct-product-name">
                     </div>
                     <div class="mb-3">
-                        <label for="editProduct-desription-text" class="col-form-label">Description:</label>
+                        <label for="editProduct-description-text" class="col-form-label">Description:</label>
                         <textarea name="description" class="form-control" id="editProduct-description-text"></textarea>
                     </div>
                     <div class="mb-3">

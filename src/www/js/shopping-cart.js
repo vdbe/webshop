@@ -51,7 +51,7 @@ async function displayProduct(product, container) {
   let card = document.createElement('div');
   card.setAttribute('class', 'card m-1 mx-auto');
   card.setAttribute('style', 'width: 18rem');
-  card.setAttribute('orderid', product['orderid']);
+  card.setAttribute('data-orderid', product['orderid']);
 
   /*
   // TODO: Get images
@@ -135,7 +135,7 @@ async function fetchProductsInBasket(name = "", description = "", category = "",
 }
 
 async function changeOrderOnClick(card) {
-  let data = { 'id': Number(card.getAttribute('orderid')), 'amount': Number(card.childNodes[0].childNodes[3].value) };
+  let data = { 'id': Number(card.getAttribute('data-orderid')), 'amount': Number(card.childNodes[0].childNodes[3].value) };
 
   try {
     const response = await fetch(new Request('/api/v1/basket/edit'), {
